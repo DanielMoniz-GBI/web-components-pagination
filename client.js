@@ -8,7 +8,7 @@
 //   })
 document.addEventListener('DOMContentLoaded', function() {
   window.getProducts = getProducts
-  getProducts()
+  getProducts(5)
   // .then(getProducts.bind(null, 2))
   // .then(getProducts.bind(null, 3))
 
@@ -27,17 +27,26 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     // .then(resp => resp.json())
     .then(results => {
-      console.log(results);
       clearResults()
       setPagination(results, page)
       updateResults(results, page, maxPageSize)
     })
   }
 
-  function setPagination(results) {
+  function setPagination(results, pageNum) {
+    let pagination = document.querySelector('nav.pagination gbi-pagination')
+    if (pagination) {
+      pagination.setAttribute('num-items', results.length)
+      pagination.setAttribute('page-num', pageNum)
+      return
+    }
+
     const container = document.querySelector('nav.pagination')
-    const pagination = document.createElement('gbi-pagination')
+    pagination = document.createElement('gbi-pagination')
+    // pagination.setAttribute('num-items', 0)
     pagination.setAttribute('num-items', results.length)
+    console.log(pageNum);
+    pagination.setAttribute('page-num', pageNum)
     container.innerHTML = ''
     container.append(pagination)
     // container.innerHTML = `<gbi-pagination num-items="${results.length}" />`
@@ -46,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateResults(results, pageNum, maxPageSize) {
     const pageMin = (pageNum - 1) * maxPageSize
     const pageMax = pageNum * maxPageSize
+    // console.log(results.slice(pageMin, pageMax));
     results.slice(pageMin, pageMax).forEach(product => {
       const tile = createTile(product)
       addTile(tile)

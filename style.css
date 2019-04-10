@@ -45,6 +45,10 @@ nav.pagination {
   margin: 7px 0;
 }
 
+gbi-pagination .selected {
+  color: red;
+}
+
 footer {
   padding: 20px 10px;
   background-color: #CCCCCC;
