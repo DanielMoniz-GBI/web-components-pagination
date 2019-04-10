@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-  function getProducts(page = 1, pageSize = 10) {
+  function getProducts(page = 1, maxPageSize = 10) {
     waitForResults()
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -29,12 +29,26 @@ document.addEventListener('DOMContentLoaded', function() {
     .then(results => {
       console.log(results);
       clearResults()
-      const pageMin = (page - 1) * pageSize
-      const pageMax = page * pageSize
-      results.slice(pageMin, pageMax).forEach(product => {
-        const tile = createTile(product)
-        addTile(tile)
-      })
+      setPagination(results, page)
+      updateResults(results, page, maxPageSize)
+    })
+  }
+
+  function setPagination(results) {
+    const container = document.querySelector('nav.pagination')
+    const pagination = document.createElement('gbi-pagination')
+    pagination.setAttribute('num-items', results.length)
+    container.innerHTML = ''
+    container.append(pagination)
+    // container.innerHTML = `<gbi-pagination num-items="${results.length}" />`
+  }
+
+  function updateResults(results, pageNum, maxPageSize) {
+    const pageMin = (pageNum - 1) * maxPageSize
+    const pageMax = pageNum * maxPageSize
+    results.slice(pageMin, pageMax).forEach(product => {
+      const tile = createTile(product)
+      addTile(tile)
     })
   }
 
@@ -42,6 +56,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const tile = document.createElement('div')
     tile.classList.add('tile')
 
+    const image = document.createElement('img')
+    image.src = product.image
+    tile.append(image)
     const name = document.createElement('div')
     name.innerText = product.name
     tile.append(name)

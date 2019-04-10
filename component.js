@@ -18,7 +18,6 @@ function defineComponents() {
       numPages = parseInt(numPages)
       console.log(numPages);
       this.innerHTML = `<span class="links"><< < ${this.getPageNumbers(numPages)} > >></span>`
-
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
