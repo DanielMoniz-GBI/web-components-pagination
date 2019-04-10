@@ -6,20 +6,31 @@
 //       "X-API-Key": "44f77fe0"
 //     }
 //   })
-const productResults = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve(window.mockData)
-  }, 1000)
-})
+
+getProducts()
+  .then(getProducts.bind(null, 2))
+  .then(getProducts.bind(null, 3))
+
+
+
+function getProducts(page = 1, pageSize = 60) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(window.mockData)
+    }, 1000)
+  })
   // .then(resp => resp.json())
   .then(results => {
     console.log(results);
     clearResults()
-    results.slice(0, 60).forEach(product => {
+    const pageMin = (page - 1) * pageSize
+    const pageMax = page * pageSize
+    results.slice(pageMin, pageMax).forEach(product => {
       const tile = createTile(product)
       addTile(tile)
     })
   })
+}
 
 function createTile(product) {
   const tile = document.createElement('div')
