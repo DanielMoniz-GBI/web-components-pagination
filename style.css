@@ -17,17 +17,12 @@ main nav {
 
 main .results {
   grid-column: 2 / 5;
-  /* display: flex;
-  flex-direction: row;
-  flex-wrap: wrap; */
   display: grid;
   grid-template-columns: 1fr;
 }
 
 .tile {
   outline: 1px solid black;
-  /* width: 100%; */
-  /* height: 100px; */
   padding: 15px;
 }
 
