@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const results = document.querySelector('main .results')
     const spinner = document.createElement('img')
     spinner.src = 'spinner.jpg'
+    spinner.classList.add('spinner')
     results.prepend(spinner)
   }
 })

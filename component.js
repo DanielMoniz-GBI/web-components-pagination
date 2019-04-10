@@ -13,8 +13,12 @@ function defineComponents() {
 
     connectedCallback() {
       console.log('In connectedCallback');
+      let numPages = this.getAttribute('num-pages')
+      if (!numPages) { numPages = 1 }
+      numPages = parseInt(numPages)
+      console.log(numPages);
       this.innerHTML = `<span class="links"><< < 1 2 3 4 5 > >></span>`
-      console.log(this.numpages);
+
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
