@@ -42,7 +42,10 @@ function defineComponents() {
           nums.push(`<span class='selected'>${i}</span>`)
           continue
         }
-        nums.push(i)
+        const url = new URL(window.location)
+        // @TODO Take 'page' or 'pg' from attributes if possible
+        url.searchParams.set('page', i)
+        nums.push(`<a href="${url.href}">${i}</a>`)
       }
       return nums.join(" ")
     }
