@@ -7,8 +7,11 @@ function defineComponents() {
         color: red;
       }
     </style>
-    <span class="left-buttons"><< <</span> <span class="page-numbers">1 2 3 4 5</span> <span class="right-buttons">> >></span>
+    <span class="links">
+      <span class="left-buttons"><< <</span> <span class="page-numbers"><span class="selected">1</span> 2 3 4 5</span> <span class="right-buttons">> >></span>
+    </span>
   `
+
   const pagination = customElements.define('gbi-pagination', class Pagination extends HTMLElement {
     constructor() {
       super()
@@ -23,6 +26,7 @@ function defineComponents() {
       const pageNum = this.currentPageNumber
       console.log('In connectedCallback');
       const pageNumbers = this.getPageNumbers(pageNum, this.numPages)
+      // this.appendChild(paginationTemplate.content.cloneNode())
       this.innerHTML = `<span class="links"><< < ${pageNumbers} > >></span>`
     }
 
@@ -31,21 +35,23 @@ function defineComponents() {
       console.log('in attributeChangedCallback:', name, oldValue, newValue);
       const pageNumbers = this.getPageNumbers(this.currentPageNumber, this.numPages)
       this.innerHTML = `<span class="links"><< < ${pageNumbers} > >></span>`
-      console.timeEnd('pagination:attr-changed')
+      // this.appendChild(paginationTemplate.content.cloneNode())
+      // const content = paginationTemplate.content.cloneNode()
+      // const numbers = content.querySelector('.page-numbers')
+      // numbers.in
+      // console.timeEnd('pagination:attr-changed')
     }
 
     getPageNumbers(pageNum, numPages) {
-      if (numPages === 0) {
-        return ''
-      }
       const nums = []
-      for (let i = 1; i <= numPages; i++) {
+      let startNumber = Math.max(1, pageNum - 2)
+      let endNumber = Math.min(pageNum + 2, numPages)
+      for (let i = startNumber; i <= endNumber; i++) {
         if (i === pageNum) {
           nums.push(`<span class='selected'>${i}</span>`)
           continue
         }
         const url = new URL(window.location)
-        // @TODO Take 'page' or 'pg' from attributes if possible
         url.searchParams.set(this.pageKey, i)
         nums.push(`<a href="${url.href}">${i}</a>`)
       }
