@@ -45,10 +45,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const container = document.querySelector('nav.pagination')
     pagination = document.createElement('gbi-pagination')
-    // pagination.setAttribute('num-items', 0)
     pagination.setAttribute('num-items', results.length)
-    console.log(pageNum);
-    pagination.setAttribute('page-num', pageNum)
+    // pagination.setAttribute('page-num', pageNum)
     container.innerHTML = ''
     container.append(pagination)
     // container.innerHTML = `<gbi-pagination num-items="${results.length}" />`

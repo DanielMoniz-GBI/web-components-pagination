@@ -3,7 +3,7 @@ function defineComponents() {
   const paginationTemplate = document.createElement('template')
   paginationTemplate.innerHTML = `
     <style></style>
-
+    << < 1 2 3 4 5 > >>
   `
   const pagination = customElements.define('gbi-pagination', class Pagination extends HTMLElement {
     constructor() {
@@ -12,7 +12,7 @@ function defineComponents() {
     }
 
     static get observedAttributes() {
-      return ['page-num']
+      return ['page-num', 'num-items', 'num-pages']
     }
 
     connectedCallback() {
