@@ -16,7 +16,7 @@ function defineComponents() {
     }
 
     connectedCallback() {
-      const pageNum = this.getCurrentPageNumber()
+      const pageNum = this.currentPageNumber
       console.log('In connectedCallback');
       let numPages = this.getAttribute('num-pages') || 1
       numPages = parseInt(numPages)
@@ -27,7 +27,7 @@ function defineComponents() {
       console.log('in attributeChangedCallback');
       if (name === 'page-num') {
         let numPages = this.getAttribute('num-pages') || 1
-        const pageNum = this.getCurrentPageNumber()
+        const pageNum = this.currentPageNumber
         this.innerHTML = `<span class="links"><< < ${this.getPageNumbers(pageNum, numPages)} > >></span>`
       }
     }
@@ -50,7 +50,7 @@ function defineComponents() {
       return nums.join(" ")
     }
 
-    getCurrentPageNumber() {
+    get currentPageNumber() {
       let pageNum = this.getAttribute('page-num')
       if (pageNum !== undefined && pageNum !== null) return parseInt(pageNum)
       const url = new URL(window.location)
