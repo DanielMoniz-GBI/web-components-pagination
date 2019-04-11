@@ -44,7 +44,7 @@ function defineComponents() {
         }
         const url = new URL(window.location)
         // @TODO Take 'page' or 'pg' from attributes if possible
-        url.searchParams.set('page', i)
+        url.searchParams.set(this.pageKey, i)
         nums.push(`<a href="${url.href}">${i}</a>`)
       }
       return nums.join(" ")
@@ -60,6 +60,10 @@ function defineComponents() {
         return parseInt(url.searchParams.get('pg'));
       }
       return 1;
+    }
+
+    get pageKey() {
+      return this.getAttribute('page-key') || 'page'
     }
   })
 }
