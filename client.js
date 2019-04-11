@@ -7,8 +7,10 @@
 //     }
 //   })
 document.addEventListener('DOMContentLoaded', function() {
+  const url = new URL(window.location)
+  let pageNum = parseInt(url.searchParams.get('page')) || 1
   window.getProducts = getProducts
-  getProducts(5)
+  getProducts(pageNum)
   // .then(getProducts.bind(null, 2))
   // .then(getProducts.bind(null, 3))
 
