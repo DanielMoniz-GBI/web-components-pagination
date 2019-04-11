@@ -16,7 +16,8 @@ function defineComponents() {
     }
 
     connectedCallback() {
-      const pageNum = parseInt(this.getAttribute('page-num')) || 1
+      const pageNum = this.getCurrentPageNumber()
+      console.log(pageNum);
       console.log('In connectedCallback');
       let numPages = this.getAttribute('num-pages') || 1
       numPages = parseInt(numPages)
@@ -27,7 +28,7 @@ function defineComponents() {
       console.log('in attributeChangedCallback');
       if (name === 'page-num') {
         let numPages = this.getAttribute('num-pages') || 1
-        const pageNum = parseInt(this.getAttribute('page-num')) || 1
+        const pageNum = this.getCurrentPageNumber()
         this.innerHTML = `<span class="links"><< < ${this.getPageNumbers(pageNum, numPages)} > >></span>`
       }
     }
@@ -45,6 +46,20 @@ function defineComponents() {
         nums.push(i)
       }
       return nums.join(" ")
+    }
+
+    getCurrentPageNumber() {
+      console.log('in getCurrentPageNumber');
+      let pageNum = this.getAttribute('page-num')
+      console.log('has page-num:', pageNum);
+      if (pageNum !== undefined && pageNum !== null) return parseInt(pageNum)
+      const url = new URL(window.location)
+      if (url.searchParams.has('page')) {
+        return parseInt(url.searchParams.get('page'))
+      } else if(url.searchParams.has('pg')) {
+        return parseInt(url.searchParams.get('pg'));
+      }
+      return 1;
     }
   })
 }

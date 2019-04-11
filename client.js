@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let pagination = document.querySelector('nav.pagination gbi-pagination')
     if (pagination) {
       pagination.setAttribute('num-items', results.length)
-      pagination.setAttribute('page-num', pageNum)
+      // pagination.setAttribute('page-num', pageNum)
       return
     }
 
