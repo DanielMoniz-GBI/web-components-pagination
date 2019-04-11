@@ -17,7 +17,6 @@ function defineComponents() {
 
     connectedCallback() {
       const pageNum = this.getCurrentPageNumber()
-      console.log(pageNum);
       console.log('In connectedCallback');
       let numPages = this.getAttribute('num-pages') || 1
       numPages = parseInt(numPages)
@@ -49,9 +48,7 @@ function defineComponents() {
     }
 
     getCurrentPageNumber() {
-      console.log('in getCurrentPageNumber');
       let pageNum = this.getAttribute('page-num')
-      console.log('has page-num:', pageNum);
       if (pageNum !== undefined && pageNum !== null) return parseInt(pageNum)
       const url = new URL(window.location)
       if (url.searchParams.has('page')) {
