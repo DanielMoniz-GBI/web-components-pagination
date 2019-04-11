@@ -18,7 +18,10 @@ document.addEventListener('DOMContentLoaded', function() {
     getProducts(pageNum)
   })
 
-
+  document.addEventListener('gbi:pagination-clicked', (event) => {
+    console.log('Caught event in client code:', event);
+    clickPaginationNumber(event.detail.selection)
+  })
 
   function getProducts(page = 1, maxPageSize = 12) {
     waitForResults()
@@ -39,13 +42,14 @@ document.addEventListener('DOMContentLoaded', function() {
     let pagination = document.querySelector('nav.pagination gbi-pagination')
     if (pagination) {
       pagination.setAttribute('num-items', results.length)
-      // pagination.setAttribute('page-num', pageNum)
+      pagination.setAttribute('use-callback', true)
       return
     }
 
     const container = document.querySelector('nav.pagination')
     pagination = document.createElement('gbi-pagination')
     pagination.setAttribute('num-items', results.length)
+    pagination.setAttribute('use-callback', true)
     // pagination.setAttribute('page-num', pageNum)
     container.innerHTML = ''
     container.append(pagination)
@@ -95,5 +99,9 @@ document.addEventListener('DOMContentLoaded', function() {
     spinner.src = 'spinner.jpg'
     spinner.classList.add('spinner')
     results.prepend(spinner)
+  }
+
+  function clickPaginationNumber(number) {
+    console.log(`Pagination number ${number} clicked!`);
   }
 })

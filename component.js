@@ -19,7 +19,7 @@ function defineComponents() {
     }
 
     static get observedAttributes() {
-      return ['page-num', 'num-items', 'num-pages']
+      return ['page-num', 'num-items', 'num-pages', 'use-callback']
     }
 
     connectedCallback() {
@@ -39,13 +39,27 @@ function defineComponents() {
       // const content = paginationTemplate.content.cloneNode()
       // const numbers = content.querySelector('.page-numbers')
       // numbers.in
-      // console.timeEnd('pagination:attr-changed')
+      console.timeEnd('pagination:attr-changed')
     }
 
     getPageNumbers(pageNum, numPages) {
       const nums = []
       let startNumber = Math.max(1, pageNum - 2)
       let endNumber = Math.min(pageNum + 2, numPages)
+      let attributes = ""
+      console.log(this.getAttribute('click-number-callback'));
+      let useCallback = this.getAttribute('use-callback')
+      window.gbiHandlePaginationClick = (event) => {
+        console.log('in gbiHandlePaginationClick');
+        event.preventDefault()
+        const clickedEvent = new CustomEvent('gbi:pagination-clicked', { detail: { selection: -5 } })
+        document.dispatchEvent(clickedEvent)
+      }
+      console.log('useCallback:', useCallback);
+      if (useCallback) {
+        attributes += ` onclick="window.gbiHandlePaginationClick(event)"`
+      }
+      // this.getAttribute('click-number-callback')}
       for (let i = startNumber; i <= endNumber; i++) {
         if (i === pageNum) {
           nums.push(`<span class='selected'>${i}</span>`)
@@ -53,7 +67,7 @@ function defineComponents() {
         }
         const url = new URL(window.location)
         url.searchParams.set(this.pageKey, i)
-        nums.push(`<a href="${url.href}">${i}</a>`)
+        nums.push(`<a href="${url.href}"${attributes}>${i}</a>`)
       }
       return nums.join(" ")
     }
@@ -85,6 +99,14 @@ function defineComponents() {
 
     get pageKey() {
       return this.getAttribute('page-key') || 'page'
+    }
+
+    set clickCallback(callback) {
+      console.log('Click callback being set!');
+      this.clickNumberCallback = (event) => {
+        event.preventDefault()
+        clickCallback(-7)
+      }
     }
   })
 }
