@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-  function getProducts(page = 1, maxPageSize = 10) {
+  function getProducts(page = 1, maxPageSize = 12) {
     waitForResults()
     return new Promise((resolve, reject) => {
       setTimeout(() => {
