@@ -2,8 +2,12 @@
 function defineComponents() {
   const paginationTemplate = document.createElement('template')
   paginationTemplate.innerHTML = `
-    <style></style>
-    << < 1 2 3 4 5 > >>
+    <style>
+      .selected {
+        color: red;
+      }
+    </style>
+    <span class="left-buttons"><< <</span> <span class="page-numbers">1 2 3 4 5</span> <span class="right-buttons">> >></span>
   `
   const pagination = customElements.define('gbi-pagination', class Pagination extends HTMLElement {
     constructor() {
@@ -24,13 +28,9 @@ function defineComponents() {
 
     attributeChangedCallback(name, oldValue, newValue) {
       console.time('pagination:attr-changed')
-      console.log('in attributeChangedCallback');
-      if (name === 'page-num') {
-        let numPages = this.getAttribute('num-pages') || 1
-        const pageNum = this.currentPageNumber
-        const pageNumbers = this.getPageNumbers(pageNum, numPages)
-        this.innerHTML = `<span class="links"><< < ${pageNumbers} > >></span>`
-      }
+      console.log('in attributeChangedCallback:', name, oldValue, newValue);
+      const pageNumbers = this.getPageNumbers(this.currentPageNumber, this.numPages)
+      this.innerHTML = `<span class="links"><< < ${pageNumbers} > >></span>`
       console.timeEnd('pagination:attr-changed')
     }
 
@@ -54,7 +54,7 @@ function defineComponents() {
 
     get currentPageNumber() {
       let pageNum = this.getAttribute('page-num')
-      if (pageNum !== undefined && pageNum !== null) return parseInt(pageNum)
+      if (pageNum) return parseInt(pageNum)
       const url = new URL(window.location)
       if (url.searchParams.has('page')) {
         return parseInt(url.searchParams.get('page'))
@@ -65,10 +65,12 @@ function defineComponents() {
     }
 
     get numPages() {
-      let numPages = parseInt(this.getAttribute('num-pages'))
-      if (numPages) return numPages
-      const numItems = parseInt(this.getAttribute('num-items'))
-      return Math.ceil(numItems / this.pageSize)
+      return parseInt(this.getAttribute('num-pages'))
+        || Math.ceil(this.numItems / this.pageSize)
+    }
+
+    get numItems() {
+      return parseInt(this.getAttribute('num-items')) || 1
     }
 
     get pageSize() {
