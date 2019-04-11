@@ -18,18 +18,20 @@ function defineComponents() {
     connectedCallback() {
       const pageNum = this.currentPageNumber
       console.log('In connectedCallback');
-      let numPages = this.getAttribute('num-pages') || 1
-      numPages = parseInt(numPages)
-      this.innerHTML = `<span class="links"><< < ${this.getPageNumbers(pageNum, numPages)} > >></span>`
+      const pageNumbers = this.getPageNumbers(pageNum, this.numPages)
+      this.innerHTML = `<span class="links"><< < ${pageNumbers} > >></span>`
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
+      console.time('pagination:attr-changed')
       console.log('in attributeChangedCallback');
       if (name === 'page-num') {
         let numPages = this.getAttribute('num-pages') || 1
         const pageNum = this.currentPageNumber
-        this.innerHTML = `<span class="links"><< < ${this.getPageNumbers(pageNum, numPages)} > >></span>`
+        const pageNumbers = this.getPageNumbers(pageNum, numPages)
+        this.innerHTML = `<span class="links"><< < ${pageNumbers} > >></span>`
       }
+      console.timeEnd('pagination:attr-changed')
     }
 
     getPageNumbers(pageNum, numPages) {
@@ -60,6 +62,17 @@ function defineComponents() {
         return parseInt(url.searchParams.get('pg'));
       }
       return 1;
+    }
+
+    get numPages() {
+      let numPages = parseInt(this.getAttribute('num-pages'))
+      if (numPages) return numPages
+      const numItems = parseInt(this.getAttribute('num-items'))
+      return Math.ceil(numItems / this.pageSize)
+    }
+
+    get pageSize() {
+      return parseInt(this.getAttribute('page-size')) || 12
     }
 
     get pageKey() {
