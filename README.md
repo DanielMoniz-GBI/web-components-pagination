@@ -3,6 +3,10 @@
 
 A rough proof of concept for a pagination element using web components. It is built entirely in vanilla JS in order to learn whether or not it's reasonable to build/maintain web components without the help of a framework like [LitElement](https://lit-element.polymer-project.org/).
 
+## Organization
+
+The `index.html`, `client.js`, and `style.css` files represent what the client may do to use the component. Note that the JS is pretty janky, but these are really just hacks to approximate the functionality of a single-page application.
+
 ## Usage
 
 As seen in `index.html`, simply add a script tag pointing to `component.js`.
@@ -11,6 +15,8 @@ To mount the component, simply add to the HTML:
 ```html
 <gbi-pagination />
   ```
+
+To override the default link behaviour, please see the `use-callback` attribute below. In short, open the console and set `use-callback=true` on the component in the `client.js` file within the `setPagination()` function.
 
 ### Base functionality
 
